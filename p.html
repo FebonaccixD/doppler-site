@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>A pitch on Doppler</title>
+<link rel="stylesheet" href="style.css">
+<style>
+  .btn { display: block; text-align: center; font-weight: 600; text-decoration: none; padding: 14px 18px; border-radius: 999px; margin: 10px 0; }
+  .btn.primary { background: var(--fg); color: var(--bg); }
+  .btn.quiet { border: 1px solid var(--line); color: var(--fg); }
+  .code { font-size: 30px; font-weight: 600; letter-spacing: 0.14em; margin: 2px 0 0; }
+  .box { border-top: 1px solid var(--line); padding-top: 18px; margin-top: 28px; }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<main>
+<svg class="wave" viewBox="0 0 16 10" aria-hidden="true"><path d="M1 5 Q3 0 5 5 T9 5 T13 5 T15 5" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round"/></svg>
+<h1>Someone wants you on this pitch</h1>
+<p class="meta">Doppler is a prediction game for friend groups. Bet free points called Hz on what happens next. Hz have no cash value.</p>
+
+<a class="btn primary" id="open" href="index.html">Open in Doppler</a>
+
+<div id="code-box" class="box" hidden>
+  <p class="meta" style="margin:0">Room code</p>
+  <p class="code" id="code"></p>
+  <p class="meta">Already have Doppler? Tap Open in Doppler above, or type the code under Join a group.</p>
+</div>
+
+<div class="box">
+  <h2 style="margin-top:0">New to Doppler?</h2>
+  <p>On iPhone, join the beta through TestFlight, then come back and tap Open in Doppler.</p>
+  <a class="btn quiet" href="https://testflight.apple.com/join/1mY8NhDV">Get Doppler on TestFlight</a>
+  <p class="meta">On Android, ask whoever sent you this for the app. 18+ only.</p>
+</div>
+
+<nav style="border:0;margin-top:40px"><a href="index.html">About Doppler</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav>
+</main>
+<script>
+  // The link looks like p.html#m=<pitch id>&c=<room code>. Everything after # stays in the browser.
+  var q = new URLSearchParams(location.hash.slice(1));
+  var m = q.get('m') || '';
+  var c = (q.get('c') || '').toUpperCase();
+  if (!/^[0-9a-f-]{36}$/i.test(m)) m = '';
+  if (!/^[A-Z0-9]{4,16}$/.test(c)) c = '';
+  var open = document.getElementById('open');
+  if (c) {
+    open.href = 'doppler://join/' + c + (m ? '?m=' + m : '');
+    document.getElementById('code').textContent = c;
+    document.getElementById('code-box').hidden = false;
+  } else if (m) {
+    open.href = 'doppler://market/' + m;
+  } else {
+    open.hidden = true;
+  }
+</script>
+</body>
+</html>
